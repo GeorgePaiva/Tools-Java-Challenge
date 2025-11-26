@@ -3,7 +3,7 @@
 Solução do desafio Tools Java Challenge (Time Elite) - API de Pagamentos.
 
 ## Tecnologias
-- Java 17
+- Java 21
 - Spring Boot (web)
 - Maven
 - OpenAPI (springdoc) para documentação
