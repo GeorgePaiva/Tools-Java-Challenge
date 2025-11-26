@@ -34,7 +34,6 @@ public class PagamentoService {
 
         this.validateRequest(request);
 
-        var id = UUID.randomUUID().toString();
         var maskedCard = maskCard(request.getCartao());
         var status = determineStatus(request.getCartao());
 
@@ -42,7 +41,6 @@ public class PagamentoService {
         var formaPagamento = buildFormaPagamento(request.getFormaPagamento());
 
         var entity = new PagamentoEntity();
-        entity.setId(id);
         entity.setCartao(maskedCard);
         entity.setDescricao(descricao);
         entity.setFormaPagamento(formaPagamento);
@@ -184,7 +182,6 @@ public class PagamentoService {
 
         var response = new PagamentoResponse();
         response.setTransacao(transacao);
-        response.setFormaPagamento(forma);
 
         return response;
     }
@@ -202,6 +199,7 @@ public class PagamentoService {
         transacao.setId(entity.getId());
         transacao.setCartao(entity.getCartao());
         transacao.setDescricao(descricao);
+        transacao.setFormaPagamento(entity.getFormaPagamento());
         return transacao;
     }
 }

@@ -10,8 +10,8 @@ import java.time.OffsetDateTime;
 @Table(name = "pagamentos")
 public class PagamentoEntity {
     @Id
-    @Column(name = "id", length = 64)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
     @Column(name = "cartao")
     private String cartao;
     @Embedded
