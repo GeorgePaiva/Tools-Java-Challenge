@@ -13,27 +13,33 @@ Solução do desafio Tools Java Challenge (Time Elite) - API de Pagamentos.
   - Body (JSON):
     ```json
     {
-      "amount": 120.50,
-      "cardNumber": "4111111111111112",
-      "cardHolder": "Fulano da Silva",
-      "expiry": "12/27",
-      "cvv": "123",
-      "paymentType": "AVISTA",
-      "installments": 1
+      "valor": 0.01,
+      "cartao": "5275557453265890",
+      "formaPagamento": {
+          "tipo": "AVISTA",
+          "parcelas": "1"
+      }
     }
     ```
   - Resposta (exemplo):
     ```json
     {
-      "id": "uuid",
-      "amount": 120.50,
-      "status": "AUTORIZADO",
-      "paymentMethod": {
-        "type": "AVISTA",
-        "cardNumberMasked": "**** **** **** 1112",
-        "installments": 1
-      },
-      "createdAt": "2025-11-21T12:00:00Z"
+      "transacao": {
+          "cartao": "5275********5890",
+          "descricao": {
+              "codigoAutorizacao": "855059064",
+              "dataHora": "25/11/2025 21:45:44",
+              "estabelecimento": "PetShop Mundo cão",
+              "nsu": "1213167555",
+              "status": "AUTORIZADO",
+              "valor": "0.01"
+          },
+          "formaPagamento": {
+              "parcelas": "1",
+              "tipo": "AVISTA"
+          },
+          "id": 1
+      }
     }
     ```
 
@@ -41,10 +47,22 @@ Solução do desafio Tools Java Challenge (Time Elite) - API de Pagamentos.
   - Resposta:
     ```json
     {
-      "id": "uuid",
-      "refunded": true,
-      "refundedAt": "2025-11-21T12:05:00Z",
-      "message": "Estorno realizado com sucesso."
+      "transacao": {
+          "cartao": "5275********5890",
+          "descricao": {
+              "codigoAutorizacao": "290344673",
+              "dataHora": "25/11/2025 21:44:00",
+              "estabelecimento": "PetShop Mundo cão",
+              "nsu": "6920652007",
+              "status": "CANCELADO",
+              "valor": "0.01"
+          },
+          "formaPagamento": {
+              "parcelas": "1",
+              "tipo": "AVISTA"
+          },
+          "id": 1
+      }
     }
     ```
 
@@ -52,12 +70,12 @@ Solução do desafio Tools Java Challenge (Time Elite) - API de Pagamentos.
 - `GET /api/payments/{id}` — buscar por ID
 
 ## Regras de negócio
-- `transaction.id` é UUID único.
-- `status` é `AUTORIZADO` ou `NEGADO`.
+- `transaction.id` é Long único.
+- `status` é `AUTORIZADO`,`NEGADO` ou `CANCELADO` .
 - `paymentType` aceita `AVISTA`, `PARCELADO_LOJA`, `PARCELADO_EMISSOR`.
 
 ## Como rodar
-1. Instalar JDK 17 e Maven.
+1. Instalar JDK 21 e Maven.
 2. Rodar:
    ```bash
    mvn clean package
