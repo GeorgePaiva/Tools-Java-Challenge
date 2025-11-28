@@ -68,7 +68,7 @@ public class PagamentoService {
     }
 
     @Transactional
-    public PagamentoResponse refund(String id) {
+    public PagamentoResponse refund(Long id) {
         var entity = pagamentoRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Transação não encontrada: " + id));
 
@@ -85,7 +85,7 @@ public class PagamentoService {
     }
 
     @Transactional(readOnly = true)
-    public PagamentoResponse findById(String id) {
+    public PagamentoResponse findById(Long id) {
         PagamentoEntity entity = pagamentoRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Transação não encontrada: " + id));
         return toResponse(entity);

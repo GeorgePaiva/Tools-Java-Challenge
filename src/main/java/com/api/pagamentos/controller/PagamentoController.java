@@ -25,7 +25,7 @@ public class PagamentoController {
     }
 
     @PostMapping("/{id}/refund")
-    public ResponseEntity<PagamentoResponse> refund(@PathVariable String id) {
+    public ResponseEntity<PagamentoResponse> refund(@PathVariable Long id) {
         PagamentoResponse resp = pagamentoService.refund(id);
         return ResponseEntity.ok(resp);
     }
@@ -37,7 +37,7 @@ public class PagamentoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PagamentoResponse> getById(@PathVariable String id) {
+    public ResponseEntity<PagamentoResponse> getById(@PathVariable Long id) {
         PagamentoResponse resp = pagamentoService.findById(id);
         return ResponseEntity.ok(resp);
     }
