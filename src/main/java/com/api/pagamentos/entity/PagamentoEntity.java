@@ -10,7 +10,7 @@ import java.time.OffsetDateTime;
 @Table(name = "pagamentos")
 public class PagamentoEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "cartao")
     private String cartao;
@@ -18,6 +18,4 @@ public class PagamentoEntity {
     private DescricaoEmbeddable descricao;
     @Embedded
     private FormaPagamentoEmbeddable formaPagamento;
-    @Column(name = "created_at")
-    private OffsetDateTime dataHora;
 }

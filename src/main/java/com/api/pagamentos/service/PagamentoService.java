@@ -8,7 +8,6 @@ import com.api.pagamentos.entity.enums.StatusTransacao;
 import com.api.pagamentos.entity.enums.TipoPagamento;
 import com.api.pagamentos.exception.ResourceNotFoundException;
 import com.api.pagamentos.repository.PagamentoRepository;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,34 +33,34 @@ public class PagamentoService {
 
         this.validateRequest(request);
 
-        var maskedCard = maskCard(request.getCartao());
-        var status = determineStatus(request.getCartao());
+        var maskedCard = maskCard(request.getTransacao().getCartao());
+        var status = determineStatus(request.getTransacao().getCartao());
 
-        var descricao = buildDescricao(request.getValor(), status);
-        var formaPagamento = buildFormaPagamento(request.getFormaPagamento());
+        var descricao = buildDescricao(request, status);
+        var formaPagamento = buildFormaPagamento(request.getTransacao().getFormaPagamento());
 
         var entity = new PagamentoEntity();
         entity.setCartao(maskedCard);
         entity.setDescricao(descricao);
         entity.setFormaPagamento(formaPagamento);
-        entity.setDataHora(OffsetDateTime.now());
 
         pagamentoRepository.save(entity);
         return toResponse(entity);
     }
 
-    private DescricaoEmbeddable buildDescricao(BigDecimal valor, String status) {
+    private DescricaoEmbeddable buildDescricao(PagamentoRequest request, String status) {
         var descricao = new DescricaoEmbeddable();
-        descricao.setValor(valor.setScale(2).toString());
-        descricao.setDataHora(OffsetDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
-        descricao.setEstabelecimento("PetShop Mundo cão");
+
+        descricao.setValor(request.getTransacao().getDescricao().getValor());
+        descricao.setDataHora(request.getTransacao().getDescricao().getDataHora());
+        descricao.setEstabelecimento(request.getTransacao().getDescricao().getEstabelecimento());
         descricao.setNsu(generateNsu());
         descricao.setCodigoAutorizacao(generateCodigoAutorizacao());
         descricao.setStatus(status);
         return descricao;
     }
 
-    private FormaPagamentoEmbeddable buildFormaPagamento(@NotNull FormaPagamentoDTO formaPagamentoDTO) {
+    private FormaPagamentoEmbeddable buildFormaPagamento(FormaPagamentoEmbeddable formaPagamentoDTO) {
         var pagamento = new FormaPagamentoEmbeddable();
         pagamento.setTipo(formaPagamentoDTO.getTipo());
         pagamento.setParcelas(formaPagamentoDTO.getParcelas());
@@ -109,12 +108,12 @@ public class PagamentoService {
         }
     }
 
-    private static FormaPagamentoDTO getFormaPagamentoDTO(PagamentoRequest req) {
-        var valor = req.getValor();
-        var cartao = req.getCartao();
-        var forma = req.getFormaPagamento();
+    private static FormaPagamentoEmbeddable getFormaPagamentoDTO(PagamentoRequest req) {
+        var valor = req.getTransacao().getDescricao().getValor();
+        var cartao = req.getTransacao().getCartao();
+        var forma = req.getTransacao().getFormaPagamento();
 
-        if (valor == null || valor.compareTo(BigDecimal.ZERO) <= 0) {
+        if (valor == null || valor.compareTo(String.valueOf(BigDecimal.ZERO)) <= 0) {
             throw new IllegalArgumentException("valor deve ser maior que zero");
         }
 

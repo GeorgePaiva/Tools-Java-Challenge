@@ -1,12 +1,10 @@
 package com.api.pagamentos.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
-import java.math.BigDecimal;
-
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PagamentoRequest {
-    private BigDecimal valor;
-    private String cartao;
-    private FormaPagamentoDTO formaPagamento;
+    private TransacaoDTO transacao;
 }
