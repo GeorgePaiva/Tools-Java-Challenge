@@ -13,11 +13,17 @@ Solução do desafio Tools Java Challenge (Time Elite) - API de Pagamentos.
   - Body (JSON):
     ```json
     {
-      "valor": 0.01,
-      "cartao": "5275557453265890",
-      "formaPagamento": {
-          "tipo": "AVISTA",
-          "parcelas": "1"
+      "transacao": {
+          "cartao": "5275557453265890",
+          "descricao": {
+              "valor": "10000,00",
+              "dataHora": "26/11/2025 11:59:07",
+              "estabelecimento": "PetShop Mundo cão"
+          },
+          "formaPagamento": {
+              "tipo": "AVISTA",
+              "parcelas": "1"
+          }
       }
     }
     ```
