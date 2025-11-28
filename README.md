@@ -86,3 +86,6 @@ Solução do desafio Tools Java Challenge (Time Elite) - API de Pagamentos.
    ```bash
    mvn clean package
    mvn spring-boot:run
+
+## Collection Postman
+[Tools-Java-Challenge.postman_collection.json](https://github.com/user-attachments/files/23811990/Tools-Java-Challenge.postman_collection.json)
