@@ -7,6 +7,7 @@ Solução do desafio Tools Java Challenge (Time Elite) - API de Pagamentos.
 - Spring Boot (web)
 - Maven
 - OpenAPI (springdoc) para documentação
+- Banco de dados Postgres versao 17
 
 ## Endpoints
 - `POST /api/payments` — criar pagamento
